@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.enums import Difficulty, QuestionType
 from app.db.entity import Entity
+from app.models.question_option import QuestionOption
 
 if TYPE_CHECKING:
     from app.models.topic import Topic
@@ -60,4 +61,11 @@ class Question(Entity):
     topic: Mapped[Topic] = relationship(
         "Topic",
         back_populates="questions",
+    )
+
+    options: Mapped[list[QuestionOption]] = relationship(
+    "QuestionOption",
+    back_populates="question",
+    cascade="all, delete-orphan",
+    order_by="QuestionOption.option_order",
     )

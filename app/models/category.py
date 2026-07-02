@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.entity import Entity
 
+if TYPE_CHECKING:
+    from app.models.topic import Topic
 
 class Category(Entity):
     __tablename__ = "categories"
@@ -21,7 +25,7 @@ class Category(Entity):
         nullable=True,
     )
 
-    topics = relationship(
-    "Topic",
-    back_populates="category",
+    topics: Mapped[list[Topic]] = relationship(
+        "Topic",
+        back_populates="category",
 )
